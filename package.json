@@ -1,14 +1,14 @@
 {
-  "name": "express-api-helper",
+  "name": "express-api-builder",
   "version": "1.0.0",
-  "description": "Utilities to create your elegant REST APIs",
+  "description": "Simple module for building API from Express app",
   "main": "src/main.js",
   "scripts": {
     "test": "node test/test"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/duongtdn/express-api-helper.git"
+    "url": "git+https://github.com/duongtdn/express-api-builder.git"
   },
   "keywords": [
     "express",
@@ -17,9 +17,9 @@
   "author": "duongtdn",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/duongtdn/express-api-helper/issues"
+    "url": "https://github.com/duongtdn/express-api-builder/issues"
   },
-  "homepage": "https://github.com/duongtdn/express-api-helper#readme",
+  "homepage": "https://github.com/duongtdn/express-api-builder#readme",
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4"
