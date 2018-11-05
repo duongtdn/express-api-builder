@@ -1,0 +1,27 @@
+{
+  "name": "express-api-helper",
+  "version": "1.0.0",
+  "description": "Utilities to create your elegant REST APIs",
+  "main": "src/main.js",
+  "scripts": {
+    "test": "node test/test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/duongtdn/express-api-helper.git"
+  },
+  "keywords": [
+    "express",
+    "rest-api"
+  ],
+  "author": "duongtdn",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/duongtdn/express-api-helper/issues"
+  },
+  "homepage": "https://github.com/duongtdn/express-api-helper#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4"
+  }
+}
