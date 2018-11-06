@@ -85,7 +85,7 @@ function signup(helpers) {
 function send(helpers) {
   return function (req, res) {
     helpers.sendEmail(req.user.email)
-    res.status(200).json({message: 'user created!})
+    res.status(200).json({message: 'user created!'})
   }
 }
 
