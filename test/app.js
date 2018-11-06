@@ -27,6 +27,10 @@ users.add('/info',
   {
     method: 'get',
     model: require('./users')
+  },
+  {
+    method: ['post', 'put'],
+    model: require('./users')
   }
 )
 

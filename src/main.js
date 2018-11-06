@@ -4,17 +4,21 @@ const express = require('express')
 const bodyParser = require('body-parser')
 
 function _validateHTTPMethod(method) {
-  
-  if (typeof method !== 'string') {
-   return {error: `method must be a string, but received ${typeof method}`}
-  }
-  
-  const supportedMethods = ['get', 'post', 'put', 'delete'];
-  if (!supportedMethods.some( _method => _method === method.toLocaleLowerCase() )) {
-    return {error: `supported methods are: ${supportedMethods}. But got ${method}`}
-  }
 
+  if ((typeof method !== 'string') && (Array.isArray(method) && method.some(_method => typeof _method !== 'string'))) {
+    return {error: `method must be a string or an array of strings, but received ${typeof method}`}
+  }
+  
+  Array.isArray(method) && method.forEach(_method => _validateSingleMethod(_method))
+  
   return {error: null}
+
+  function _validateSingleMethod(method) {
+    const supportedMethods = ['get', 'post', 'put', 'delete'];    
+    if (!supportedMethods.some( _method => _method === method.toLocaleLowerCase() )) {
+      return {error: `supported methods are: ${supportedMethods}. But got ${method}`}
+    }
+  }
 
 }
 
@@ -54,17 +58,27 @@ module.exports = function () {
         throw new Error(`when building API for uri ${uri}, ${_err.error}.`)
       }
 
-      if (Array.isArray(model) && model.every( _model => _isFunction(_model) )) {
-        // model is an array of functions
-        const middleWares = model.map( func => {
-          return func(api.__helpers)
-        })
-        api.__router[method.toLowerCase()](uri, ...middleWares)
-      } else if ( _isFunction(model) ) {
-        // model is a function
-        api.__router[method.toLowerCase()](uri, model(api.__helpers))
+      const _api = api.__router.route(uri);
+
+      if (typeof method === 'string') {
+        _api[method](_wrapModel(model))
       } else {
-        throw new Error(`when building API for ${method.toUpperCase()} ${uri}, model must be a function or an array of functions`)
+        method.forEach( _method => _api[_method](_wrapModel(model)))
+      }
+
+      function _wrapModel (model) {
+        if (Array.isArray(model) && model.every( _model => _isFunction(_model) )) {
+          // model is an array of functions
+          const middleWares = model.map( func => {
+            return func(api.__helpers)
+          })
+          return middleWares
+        } else if ( _isFunction(model) ) {
+          // model is a function
+          return model(api.__helpers)
+        } else {
+          throw new Error(`when building API endpoint ${method.toUpperCase()} ${uri}, model must be a function or an array of functions`)
+        }    
       }
       
     })
