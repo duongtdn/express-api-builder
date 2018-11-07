@@ -15,7 +15,7 @@ function _validateHTTPMethod(method) {
 
   function _validateSingleMethod(method) {
     const supportedMethods = ['get', 'post', 'put', 'delete'];    
-    if (!supportedMethods.some( _method => _method === method.toLocaleLowerCase() )) {
+    if (!supportedMethods.some( _method => _method === method.toLowerCase() )) {
       return {error: `supported methods are: ${supportedMethods}. But got ${method}`}
     }
   }
@@ -61,9 +61,9 @@ module.exports = function () {
       const _api = api.__router.route(uri);
 
       if (typeof method === 'string') {
-        _api[method](_wrapModel(model))
+        _api[method.toLowerCase()](_wrapModel(model))
       } else {
-        method.forEach( _method => _api[_method](_wrapModel(model)))
+        method.forEach( _method => _api[_method.toLowerCase()](_wrapModel(model)))
       }
 
       function _wrapModel (model) {
