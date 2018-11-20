@@ -45,20 +45,22 @@ module.exports = function () {
     return api.__helpers[name]
   }
 
-  api.add = function(uri, ...actions) {
+  api.add = function(path, actions) {
 
-    if (!uri || typeof uri !== 'string') {
-      throw new Error(`when building API, uri must be a string.`)
+    if (!path || typeof path !== 'string') {
+      throw new Error(`when building API, path must be a string.`)
     }
 
-    actions.forEach( ({method, model}) => {
+    for (let method in actions) {
 
+      const model = actions[method]
       const _err = _validateHTTPMethod(method)
+
       if (_err.error) {
-        throw new Error(`when building API for uri ${uri}, ${_err.error}.`)
+        throw new Error(`when building API for path ${path}, ${_err.error}.`)
       }
 
-      const _api = api.__router.route(uri);
+      const _api = api.__router.route(path);
 
       if (typeof method === 'string') {
         _api[method.toLowerCase()](_wrapModel(model))
@@ -66,22 +68,23 @@ module.exports = function () {
         method.forEach( _method => _api[_method.toLowerCase()](_wrapModel(model)))
       }
 
-      function _wrapModel (model) {
-        if (Array.isArray(model) && model.every( _model => _isFunction(_model) )) {
-          // model is an array of functions
-          const middleWares = model.map( func => {
-            return func(api.__helpers)
-          })
-          return middleWares
-        } else if ( _isFunction(model) ) {
-          // model is a function
-          return model(api.__helpers)
-        } else {
-          throw new Error(`when building API endpoint ${method.toUpperCase()} ${uri}, model must be a function or an array of functions`)
-        }    
-      }
-      
-    })
+    }
+
+    function _wrapModel (model) {
+      if (Array.isArray(model) && model.every( _model => _isFunction(_model) )) {
+        // model is an array of functions
+        const middleWares = model.map( func => {
+          return func(api.__helpers)
+        })
+        return middleWares
+      } else if ( _isFunction(model) ) {
+        // model is a function
+        return model(api.__helpers)
+      } else {
+        throw new Error(`when building API endpoint ${method.toUpperCase()} ${path}, model must be a function or an array of functions`)
+      }    
+    }
+    
   }
 
   api.generate = function () {
