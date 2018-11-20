@@ -14,7 +14,7 @@ function _validateHTTPMethod(method) {
   return {error: null}
 
   function _validateSingleMethod(method) {
-    const supportedMethods = ['get', 'post', 'put', 'delete'];    
+    const supportedMethods = ['get', 'head', 'post', 'put', 'patch', 'delete', 'trace', 'connect'];    
     if (!supportedMethods.some( _method => _method === method.toLowerCase() )) {
       return {error: `supported methods are: ${supportedMethods}. But got ${method}`}
     }
