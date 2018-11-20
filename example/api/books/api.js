@@ -8,8 +8,7 @@ const books = Builder()
 
 books.add('/books',
   {
-    method: 'GET',
-    model: require('./borrow-books.js')
+   get: require('./borrow-books.js')
   }
 )
 
