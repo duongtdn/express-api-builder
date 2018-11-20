@@ -166,12 +166,9 @@ const users = Builder()
 */
 users.add('/users',
   {
-    method: 'GET',
-    model: require('./get-users.js')
-  },
-  {
-    method: ['POST', 'PUT'],
-    model: require('./update-users.js')
+    get: require('./get-users.js'),
+    post: require('./update-users.js'),
+    put: require('./update-users.js')
   }
 )
 
@@ -217,8 +214,7 @@ const books = Builder()
 
 books.add('/books',
   {
-    method: 'GET',
-    model: require('./borrow-books.js')
+   get: require('./borrow-books.js')
   }
 )
 
