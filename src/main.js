@@ -70,6 +70,8 @@ module.exports = function () {
 
     }
 
+    return api
+
     function _wrapModel (model) {
       if (Array.isArray(model) && model.every( _model => _isFunction(_model) )) {
         // model is an array of functions
