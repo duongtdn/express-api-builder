@@ -70,7 +70,7 @@ module.exports = function () {
 
     }
 
-    return api
+    return this
 
     function _wrapModel (model) {
       if (Array.isArray(model) && model.every( _model => _isFunction(_model) )) {
@@ -91,6 +91,11 @@ module.exports = function () {
 
   api.generate = function () {
     return api.__router
+  }
+
+  api.use = function(middleware) {
+    api.__router.use(middleware)
+    return this
   }
 
   return api
