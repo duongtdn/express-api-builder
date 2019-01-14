@@ -83,7 +83,7 @@ module.exports = function () {
         // model is a function
         return model(api.__helpers)
       } else {
-        throw new Error(`when building API endpoint ${method.toUpperCase()} ${path}, model must be a function or an array of functions`)
+        throw new Error(`Error occurs when building API for endpoint ${path}, model must be a function or an array of functions`)
       }    
     }
     
